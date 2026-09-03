@@ -18,7 +18,7 @@ const DEFAULT_PRESET_LEVELS = [
       { id: "item_n7", name: "Papagaio de madeira", x: 61.0, y: 20.0, w: 6.5, h: 17.5 },
       { id: "item_n8", name: "Espada", x: 75.5, y: 18.5, w: 19.5, h: 18.0 },
       { id: "item_n9", name: "Moeda de ouro", x: 78.5, y: 47.0, w: 16.5, h: 13.5 },
-      { id: "item_n10", name: "Bola de canhão", x: 49.0, y: 80.0, w: 8.0, h: 15.0 }
+      { id: "item_n10", name: "Bola de canhão", x: 76.0, y: 90.0, w: 9.0, h: 10.0 }
     ]
   },
   {
