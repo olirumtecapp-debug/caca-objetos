@@ -96,7 +96,80 @@ class ExpedicaoGameplay {
         }
       });
 
-      // 3. Clique para marcar objetos (apenas se não tiver arrastado a tela)
+      // 3. Suporte Touch Mobile Completo (Toque, Pinça e Duplo Toque)
+      let initialPinchDist = 0;
+      let startPinchZoom = 1.0;
+      let lastTapTime = 0;
+
+      this.sceneWrap.addEventListener('touchstart', (e) => {
+        if (e.target.closest('.game-floating-zoom') || e.target.closest('.game-sidebar-checklist')) return;
+
+        if (e.touches.length === 2) {
+          // Início de Pinça (Pinch-to-zoom)
+          initialPinchDist = Math.hypot(
+            e.touches[0].clientX - e.touches[1].clientX,
+            e.touches[0].clientY - e.touches[1].clientY
+          );
+          startPinchZoom = this.zoomLevel;
+          this.isPanning = false;
+        } else if (e.touches.length === 1) {
+          const now = Date.now();
+          if (now - lastTapTime < 300) {
+            // Duplo Toque: Alterna zoom 1.8x / 1.0x
+            if (this.zoomLevel > 1.1) {
+              this.resetZoom();
+            } else {
+              this.setZoom(1.8);
+            }
+            lastTapTime = 0;
+            return;
+          }
+          lastTapTime = now;
+
+          this.isMouseDown = true;
+          this.hasDragged = false;
+          this.dragStartX = e.touches[0].clientX;
+          this.dragStartY = e.touches[0].clientY;
+          this.startPanX = this.panX;
+          this.startPanY = this.panY;
+        }
+      }, { passive: true });
+
+      this.sceneWrap.addEventListener('touchmove', (e) => {
+        if (e.touches.length === 2 && initialPinchDist > 0) {
+          // Gesto de Pinça em tempo real
+          const currentDist = Math.hypot(
+            e.touches[0].clientX - e.touches[1].clientX,
+            e.touches[0].clientY - e.touches[1].clientY
+          );
+          const factor = currentDist / initialPinchDist;
+          this.setZoom(startPinchZoom * factor);
+        } else if (e.touches.length === 1 && this.isMouseDown) {
+          const dx = e.touches[0].clientX - this.dragStartX;
+          const dy = e.touches[0].clientY - this.dragStartY;
+          if (Math.hypot(dx, dy) > 8) {
+            this.hasDragged = true;
+            this.isPanning = true;
+            this.panX = this.startPanX + dx;
+            this.panY = this.startPanY + dy;
+            this.updateTransform();
+          }
+        }
+      }, { passive: true });
+
+      this.sceneWrap.addEventListener('touchend', (e) => {
+        if (e.touches.length === 0) {
+          if (!this.hasDragged && this.isMouseDown) {
+            // Dispara clique do toque
+            const touch = e.changedTouches[0];
+            this.handleCanvasClick(touch);
+          }
+          this.isMouseDown = false;
+          this.isPanning = false;
+          initialPinchDist = 0;
+        }
+      });
+
       if (this.mainCanvas) {
         this.mainCanvas.addEventListener('click', (e) => {
           if (!this.hasDragged) {
@@ -104,7 +177,6 @@ class ExpedicaoGameplay {
           }
         });
         this.mainCanvas.addEventListener('mousemove', (e) => this.handleMouseMove(e));
-        this.mainCanvas.addEventListener('touchmove', (e) => this.handleTouchMove(e));
       }
 
       window.addEventListener('resize', () => this.repositionPins());
