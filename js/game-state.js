@@ -9,13 +9,13 @@ const DEFAULT_PRESET_LEVELS = [
     image: "assets/navio_pirata.png",
     timeLimit: 120,
     items: [
-      { id: "item_n1", name: "Bússola", x: 29.5, y: 46.5, w: 10.0, h: 12.0 },
+      { id: "item_n1", name: "Bússola", x: 30.0, y: 48.0, w: 10.0, h: 12.0 },
       { id: "item_n2", name: "Mapa do tesouro", x: 36.5, y: 47.0, w: 14.5, h: 10.5 },
-      { id: "item_n3", name: "Papagaio de madeira", x: 40.5, y: 18.5, w: 8.5, h: 15.5 },
-      { id: "item_n4", name: "Espada", x: 57.5, y: 18.0, w: 24.0, h: 16.0 },
+      { id: "item_n3", name: "Papagaio de madeira", x: 40.5, y: 22.0, w: 8.5, h: 14.0 },
+      { id: "item_n4", name: "Espada", x: 56.0, y: 22.0, w: 22.0, h: 14.0 },
       { id: "item_n5", name: "Moeda de ouro", x: 64.0, y: 49.0, w: 9.5, h: 9.5 },
       { id: "item_n6", name: "Tapa-olho", x: 17.5, y: 69.5, w: 8.0, h: 14.5 },
-      { id: "item_n7", name: "Caneca de grogue", x: 48.5, y: 50.5, w: 8.5, h: 13.5 },
+      { id: "item_n7", name: "Caneca de grogue", x: 49.0, y: 52.0, w: 7.5, h: 13.0 },
       { id: "item_n8", name: "Diário de bordo", x: 9.5, y: 73.0, w: 16.0, h: 14.0 },
       { id: "item_n9", name: "Garrafa de rum", x: 36.5, y: 77.5, w: 9.0, h: 17.0 },
       { id: "item_n10", name: "Bola de canhão", x: 53.0, y: 84.0, w: 9.5, h: 12.5 }

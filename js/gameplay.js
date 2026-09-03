@@ -331,35 +331,35 @@ class ExpedicaoGameplay {
 
     // Debounce obrigatório para impedir múltiplos disparos no mesmo clique
     const now = Date.now();
-    if (this.lastGameplayClick && (now - this.lastGameplayClick < 350)) {
+    if (this.lastGameplayClick && (now - this.lastGameplayClick < 300)) {
       return;
     }
     this.lastGameplayClick = now;
 
     const rect = this.mainCanvas.getBoundingClientRect();
-    const clientX = e.clientX || (e.touches && e.touches[0].clientX);
-    const clientY = e.clientY || (e.touches && e.touches[0].clientY);
+    const clientX = e.clientX !== undefined ? e.clientX : (e.touches && e.touches[0] ? e.touches[0].clientX : (e.changedTouches && e.changedTouches[0] ? e.changedTouches[0].clientX : 0));
+    const clientY = e.clientY !== undefined ? e.clientY : (e.touches && e.touches[0] ? e.touches[0].clientY : (e.changedTouches && e.changedTouches[0] ? e.changedTouches[0].clientY : 0));
 
-    const clickX = ((clientX - rect.left) / rect.width) * 100;
-    const clickY = ((clientY - rect.top) / rect.height) * 100;
+    if (rect.width === 0 || rect.height === 0) return;
+
+    const clickX = Math.max(0, Math.min(100, ((clientX - rect.left) / rect.width) * 100));
+    const clickY = Math.max(0, Math.min(100, ((clientY - rect.top) / rect.height) * 100));
 
     let foundAny = false;
 
-    // Busca o item mais próximo do clique (dispara APENAS 1 item por clique)
+    // Busca estrita: seleciona o item cujo bounding box contém o clique com menor distância ao centro
     let bestMatch = null;
     let closestDist = Infinity;
 
     for (const item of this.currentLevel.items) {
       if (this.foundItems.has(item.id)) continue;
 
-      const padX = Math.max(2, item.w * 0.15);
-      const padY = Math.max(2, item.h * 0.15);
+      const minX = item.x;
+      const maxX = item.x + item.w;
+      const minY = item.y;
+      const maxY = item.y + item.h;
 
-      const minX = item.x - padX;
-      const maxX = item.x + item.w + padX;
-      const minY = item.y - padY;
-      const maxY = item.y + item.h + padY;
-
+      // Verifica se o clique está dentro da caixa do objeto
       if (clickX >= minX && clickX <= maxX && clickY >= minY && clickY <= maxY) {
         const centerX = item.x + item.w / 2;
         const centerY = item.y + item.h / 2;
@@ -367,6 +367,25 @@ class ExpedicaoGameplay {
         if (dist < closestDist) {
           closestDist = dist;
           bestMatch = item;
+        }
+      }
+    }
+
+    // Fallback com leve tolerância (apenas 3%) caso o toque tenha sido na bordinha externa
+    if (!bestMatch) {
+      const tol = 3.0; // 3% de tolerância máxima
+      for (const item of this.currentLevel.items) {
+        if (this.foundItems.has(item.id)) continue;
+
+        if (clickX >= (item.x - tol) && clickX <= (item.x + item.w + tol) &&
+            clickY >= (item.y - tol) && clickY <= (item.y + item.h + tol)) {
+          const centerX = item.x + item.w / 2;
+          const centerY = item.y + item.h / 2;
+          const dist = Math.hypot(clickX - centerX, clickY - centerY);
+          if (dist < closestDist) {
+            closestDist = dist;
+            bestMatch = item;
+          }
         }
       }
     }
@@ -430,22 +449,16 @@ class ExpedicaoGameplay {
 
   repositionPins() {
     if (!this.currentLevel || !this.mainCanvas) return;
-    const wrap = document.getElementById('game-scene-wrap');
-    if (!wrap) return;
 
-    const rect = this.mainCanvas.getBoundingClientRect();
-    const wrapRect = wrap.getBoundingClientRect();
-
+    // Garante que todos os pinos continuem cravados em % relativa ao palco em qualquer tamanho de tela e fullscreen
     this.currentLevel.items.forEach(item => {
       if (this.foundItems.has(item.id)) {
         const pin = document.getElementById(`found-pin-${item.id}`);
         if (pin) {
           const centerX = item.x + item.w / 2;
           const centerY = item.y + item.h / 2;
-          const posX = (rect.left - wrapRect.left) + (centerX / 100) * rect.width;
-          const posY = (rect.top - wrapRect.top) + (centerY / 100) * rect.height;
-          pin.style.left = `${posX}px`;
-          pin.style.top = `${posY}px`;
+          pin.style.left = `${centerX}%`;
+          pin.style.top = `${centerY}%`;
         }
       }
     });
