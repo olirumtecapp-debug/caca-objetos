@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Expedição: Objetos Ocultos - Mistério das Relíquias</title>
+  
+  <!-- Fontes Cinzel & Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Plus+Jakarta+Sans:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  
+  <!-- Estilos -->
+  <link rel="stylesheet" href="css/styles.css?v=3.7">
+</head>
+<body>
+
+  <!-- ==========================================================================
+       HUD SUPERIOR GLOBAL (BARRA DE ECONOMIA & STATUS)
+       ========================================================================== -->
+  <!-- ==========================================================================
+       HUD SUPERIOR DE LUXO (PADRÃO AAA PLAY STORE)
+       ========================================================================== -->
+  <header class="top-hud">
+    <div class="hud-profile-box">
+      <div class="hud-avatar-circle">
+        <span class="avatar-icon">🕵️‍♂️</span>
+        <div class="avatar-badge-lvl" id="hud-player-level-badge">1</div>
+      </div>
+      <div class="hud-level-info">
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+          <span class="hud-level-badge" id="hud-player-level">Nível 1 • Detetive</span>
+          <span class="hud-xp-sub" id="hud-xp-text">0 / 500 XP</span>
+        </div>
+        <div class="hud-progress-bar-wrap">
+          <div class="hud-progress-fill" id="hud-xp-fill"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="hud-currencies">
+      <!-- Energia -->
+      <div class="currency-pill energy-pill" title="Energia para Jogar">
+        <span class="currency-icon-glow">⚡</span>
+        <div class="pill-data">
+          <span class="currency-val" id="hud-energy-val">100/100</span>
+          <span class="pill-sub">Grátis</span>
+        </div>
+      </div>
+
+      <!-- Moedas de Ouro -->
+      <div class="currency-pill coins-pill" onclick="window.ExpedicaoApp.openShopModal()" title="Moedas de Ouro">
+        <span class="currency-icon-glow">🪙</span>
+        <div class="pill-data">
+          <span class="currency-val" id="hud-coins-val">150</span>
+          <span class="pill-sub">Moedas</span>
+        </div>
+      </div>
+
+      <!-- Diamantes -->
+      <div class="currency-pill gems-pill" onclick="window.ExpedicaoApp.openShopModal()" title="Gemas Preciosas">
+        <span class="currency-icon-glow">💎</span>
+        <div class="pill-data">
+          <span class="currency-val" id="hud-diamonds-val">10</span>
+          <span class="pill-sub">Gemas</span>
+        </div>
+        <div class="pill-plus-btn">+</div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ==========================================================================
+       TELA 1: MENU PRINCIPAL - AAA CASUAL EXPERIENCE
+       ========================================================================== -->
+  <div id="screen-menu" class="app-screen active">
+    
+    <!-- Fundo de Partículas & Luz Ambiente -->
+    <div class="ambient-light-glow"></div>
+
+    <main class="menu-center-container">
+      
+      <!-- LOGO 3D DO JOGO (COM BRILHO METÁLICO & EMBLEMA) -->
+      <div class="game-brand-hero">
+        <div class="brand-crest-wrap">
+          <div class="crest-wings left"></div>
+          <div class="brand-crest-circle">
+            <span class="crest-icon">🔍</span>
+          </div>
+          <div class="crest-wings right"></div>
+        </div>
+
+        <div class="brand-title-box">
+          <div class="brand-pre-tag">JOGO DE MISTÉRIO & PERCEPÇÃO</div>
+          <h1 class="brand-main-title">INCRÍVEL CAÇA OBJETOS</h1>
+          <div class="brand-ribbon">
+            <span>⭐ DESCUBRA OS SEGREDOS ESCONDIDOS ⭐</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- STAGE HERO: CARTÃO 3D DA FASE ATUAL COM BOTÃO GIGANTE -->
+      <div class="hero-stage-card" id="hero-play-card">
+        <div class="stage-card-glow-bg"></div>
+        
+        <div class="stage-poster-wrap">
+          <img id="hero-level-thumb" src="" alt="Cenário Atual" class="stage-poster-img">
+          <div class="stage-phase-ribbon" id="hero-level-badge">FASE 1</div>
+          <div class="stage-stars-pedestal" id="hero-stars-row">
+            <span class="p-star active">⭐</span>
+            <span class="p-star active">⭐</span>
+            <span class="p-star active">⭐</span>
+          </div>
+        </div>
+
+        <div class="stage-info-content">
+          <div class="stage-header-row">
+            <span class="stage-status-tag">📍 SUA PRÓXIMA MISSÃO</span>
+            <span class="stage-reward-badge">+200 🪙 & +150 XP</span>
+          </div>
+          <h2 id="hero-level-title" class="stage-title-text">Navio Pirata</h2>
+          <p id="hero-level-desc" class="stage-desc-text">10 objetos escondidos para encontrar sob pressão do relógio!</p>
+
+          <div class="stage-actions-row">
+            <!-- BOTÃO 3D PULSANTE DE JOGAR -->
+            <button class="btn-play-juicy-giant" id="menu-btn-continue">
+              <span class="play-icon-glow">▶</span>
+              <span class="play-text-box">
+                <strong class="play-main-txt">JOGAR AGORA</strong>
+                <small class="play-sub-txt">Custo: 0 ⚡ (Grátis)</small>
+              </span>
+              <div class="btn-shine-sweep"></div>
+            </button>
+
+            <button class="btn-zen-quick" id="menu-btn-casual" title="Jogar sem cronômetro de tempo">
+              <span>🌿</span>
+              <span>Modo Zen</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- SAGA MAP: TRILHA DE FASES COM NÓS E CONEXÕES -->
+      <div class="saga-trail-section">
+        <div class="saga-section-header">
+          <div style="display:flex; align-items:center; gap:8px;">
+            <span class="saga-icon">🗺️</span>
+            <div>
+              <h3 class="saga-title">TRILHA DE CAPÍTULOS</h3>
+              <p class="saga-sub">Complete os cenários para avançar na história</p>
+            </div>
+          </div>
+          <button class="btn-saga-all" onclick="window.ExpedicaoApp.openCampaign()">Ver Mapa Completo ▶</button>
+        </div>
+
+        <div id="menu-levels-trail" class="saga-nodes-track">
+          <!-- Renderizado com design de nós de saga pelo JS -->
+        </div>
+      </div>
+
+      <!-- MINI GUIA EM 3 PASSOS (ONBOARDING CASUAL) -->
+      <div class="quick-guide-panel">
+        <div class="guide-header">
+          <span>💡</span> <strong>COMO JOGAR COMO UM MESTRE DETETIVE:</strong>
+        </div>
+        <div class="guide-steps-grid">
+          <div class="guide-step-card">
+            <div class="step-num">1</div>
+            <div class="step-info">
+              <strong>Olhe a Lista</strong>
+              <p>Memorize os nomes dos objetos na barra lateral.</p>
+            </div>
+          </div>
+          <div class="guide-step-card">
+            <div class="step-num">2</div>
+            <div class="step-info">
+              <strong>Ache na Imagem</strong>
+              <p>Dê 1 clique no item. Use a 🔍 Lupa para detalhes!</p>
+            </div>
+          </div>
+          <div class="guide-step-card">
+            <div class="step-num">3</div>
+            <div class="step-info">
+              <strong>Ganhe Estrelas</strong>
+              <p>Seja rápido para ganhar 3 ⭐ e abrir novos capítulos!</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </main>
+
+    <!-- DOCK BAR INFERIOR DE ALTA FIDELIDADE -->
+    <footer class="bottom-dock-bar">
+      <button class="dock-item" id="footer-btn-shop">
+        <div class="dock-icon-box">🛒</div>
+        <span>Loja</span>
+      </button>
+
+      <button class="dock-item" id="footer-btn-daily">
+        <div class="dock-icon-box">
+          🎁
+          <span class="dock-badge-pulse">!</span>
+        </div>
+        <span>Baú Diário</span>
+      </button>
+
+      <button class="dock-item dock-highlight" id="footer-btn-studio">
+        <div class="dock-icon-box gold">👑</div>
+        <span style="color:#fde047; font-weight:800;">Criador</span>
+      </button>
+
+      <button class="dock-item" id="footer-btn-settings">
+        <div class="dock-icon-box">⚙️</div>
+        <span>Ajustes</span>
+      </button>
+    </footer>
+  </div>
+
+  <!-- ==========================================================================
+       TELA 2: MAPA DA CAMPANHA (SELEÇÃO DE FASES)
+       ========================================================================== -->
+  <div id="screen-campaign" class="app-screen">
+    <div class="game-top-bar">
+      <button class="btn btn-sm" onclick="window.ExpedicaoApp.showScreen('menu')">◀ Menu</button>
+      <h3 class="font-cinzel" style="color: #fbbf24; font-size: 1.1rem;">MAPA DE EXPEDIÇÕES</h3>
+      <div></div>
+    </div>
+
+    <div class="menu-center-container">
+      <div id="campaign-levels-grid" class="modes-grid" style="max-width: 720px; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));">
+        <!-- Renderizado dinamicamente pelo JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       TELA 3: CENA DE JOGO (GAMEPLAY)
+       ========================================================================== -->
+  <div id="screen-game" class="app-screen">
+    <header class="game-top-bar">
+      <button class="btn btn-sm" id="game-btn-back">◀ Sair</button>
+      
+      <div style="text-align: center;">
+        <span id="game-level-title" style="font-weight: 800; font-size: 0.9rem; color: #fbbf24;">Fase 1: Mesa do Arqueólogo</span>
+        <div style="font-size: 11px; color: #38bdf8;">Achados: <strong id="game-found-counter">0/5</strong></div>
+      </div>
+
+      <div style="display: flex; gap: 8px; align-items: center;">
+        <div class="currency-badge" style="padding: 4px 8px;">
+          <span style="font-size: 11px; color: #94a3b8;">Tempo:</span>
+          <span id="game-timer-display" style="font-weight: 800; color: #34d399;">02:00</span>
+        </div>
+
+        <button class="btn btn-sm" id="game-btn-lens" onclick="window.ExpedicaoGame.toggleLens()" title="Ativar Lupa de Zoom">🔍 Lupa</button>
+        <button class="btn btn-sm" id="game-btn-uv" onclick="window.ExpedicaoGame.toggleUV()" title="Modo Luz Negra (UV)">👁️ UV</button>
+        <button class="btn btn-sm btn-primary" onclick="window.ExpedicaoGame.useHint()" title="Usar Dica Dourada">
+          💡 Dica (<span id="btn-hint-count">3</span>)
+        </button>
+      </div>
+    </header>
+
+    <div class="game-main-layout">
+      <!-- Área Central da Fotografia -->
+      <div class="game-scene-container" id="game-scene-wrap">
+        <div class="game-stage-wrapper" id="game-stage-inner">
+          <canvas id="game-main-canvas"></canvas>
+        </div>
+        
+        <!-- Controles de Zoom Flutuantes na Partida -->
+        <div class="game-floating-zoom" id="game-zoom-controls">
+          <button class="btn-zoom-ctrl" onclick="window.ExpedicaoGame.zoomOut()" title="Afastar (-)">-</button>
+          <span class="zoom-level-text" id="game-zoom-display">100%</span>
+          <button class="btn-zoom-ctrl" onclick="window.ExpedicaoGame.zoomIn()" title="Aproximar (+)">+</button>
+          <button class="btn-zoom-ctrl" onclick="window.ExpedicaoGame.resetZoom()" title="Resetar Zoom (100%)">↺</button>
+        </div>
+
+        <!-- Lupa de Zoom Ótico 2x -->
+        <div id="game-lens">
+          <canvas id="game-lens-canvas" width="190" height="190"></canvas>
+        </div>
+      </div>
+
+      <!-- Barra Lateral de Objetivos -->
+      <aside class="game-sidebar-checklist">
+        <div class="checklist-title">Encontre na Cena:</div>
+        <div class="checklist-items-scroll" id="game-items-checklist">
+          <!-- Renderizado pelo JS -->
+        </div>
+        <div style="font-size: 10px; color: #64748b; line-height: 1.4; border-top: 1px solid #1e293b; padding-top: 6px;">
+          Itens 100% integrados à fotografia. Use a Lupa de Zoom para inspecionar os detalhes!
+        </div>
+      </aside>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       TELA 4: ESTÚDIO DO CRIADOR (ADMIN STUDIO)
+       ========================================================================== -->
+  <div id="screen-studio" class="app-screen">
+    <header class="game-top-bar">
+      <div style="display: flex; align-items: center; gap: 10px;">
+        <button class="btn btn-sm" onclick="window.ExpedicaoApp.showScreen('menu')">◀ Voltar</button>
+        <h3 class="font-cinzel" style="color: #fbbf24; font-size: 1.1rem; margin: 0;">👑 ESTÚDIO</h3>
+      </div>
+
+      <!-- Abas do Estúdio: Manual vs IA -->
+      <div class="studio-tabs-bar">
+        <button class="studio-tab-btn active" id="tab-studio-manual">
+          <span>📸</span>
+          <span>Upload & Marcação Rápida</span>
+        </button>
+        <button class="studio-tab-btn" id="tab-studio-ai-gen">
+          <span>🔮</span>
+          <span>Gerador com IA</span>
+        </button>
+      </div>
+
+      <div style="display: flex; gap: 8px; align-items: center;">
+        <button class="btn btn-sm btn-primary" id="studio-btn-save-level">💾 Salvar Cenário</button>
+        <button class="btn btn-sm" id="studio-btn-test-now" style="background: linear-gradient(135deg, #10b981, #059669); color: #fff; font-weight: 800; border: none; box-shadow: 0 0 10px rgba(16, 185, 129, 0.4);" title="Jogar e Testar Este Cenário Imediatamente">▶️ Testar Fase</button>
+        <button class="btn btn-sm btn-secondary" id="studio-btn-new-level">+ Novo</button>
+      </div>
+    </header>
+
+    <!-- SEÇÃO DO GERADOR AUTOMÁTICO COM IA (ABA 2) -->
+    <div id="studio-ai-gen-view" style="display: none; padding: 12px 20px;">
+      <div class="ai-gen-card">
+        <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; margin-bottom: 12px;">
+          <div style="display: flex; align-items: center; gap: 10px;">
+            <span style="font-size: 26px;">🔮</span>
+            <div>
+              <h3 style="font-size: 16px; font-weight: 800; color: #fbbf24; margin: 0;">Gerador Automático de Fases por Texto</h3>
+              <p style="font-size: 11px; color: #94a3b8; margin: 0;">Cole a descrição do cenário com os 10 itens e a IA gerará a imagem camuflada já com todos os objetos mapeados!</p>
+            </div>
+          </div>
+
+          <button class="btn btn-sm" id="studio-ai-key-btn" style="font-size: 11px;">🔑 Chave Google AI</button>
+        </div>
+
+        <!-- Campo de Chave Google AI (Opcional) -->
+        <div id="studio-ai-key-box" style="display: none; background: #030712; padding: 10px; border-radius: 8px; border: 1px solid #334155; margin-bottom: 12px;">
+          <label style="font-size: 11px; color: #94a3b8; display: block; margin-bottom: 4px;">Chave da API Google AI Studio (para gerar imagens no Imagen 3 e Gemini):</label>
+          <div style="display: flex; gap: 8px;">
+            <input type="password" id="studio-ai-key-val" placeholder="Cole sua chave AI Studio aqui..." style="flex: 1; padding: 6px 10px; background: #0f172a; border: 1px solid #334155; border-radius: 6px; color: #fff; font-size: 12px;">
+            <button class="btn btn-sm btn-primary" id="studio-ai-key-save">Salvar Chave</button>
+          </div>
+          <span style="font-size: 10px; color: #64748b; margin-top: 4px; display: block;">Obtenha grátis em <a href="https://aistudio.google.com/app/apikey" target="_blank" style="color:#fbbf24;">aistudio.google.com</a></span>
+        </div>
+
+        <!-- Caixa de Texto para Colar o Cenário -->
+        <label style="font-size: 12px; font-weight: 700; color: #fde68a; display: block; margin-bottom: 6px;">Cole a Descrição do Cenário:</label>
+        <textarea id="studio-ai-prompt-input" rows="4" placeholder="Exemplo:\n16. Cofre do Banco (Custo: 30 Diamantes)\n\nItens (10): Barra de ouro, Maço de dinheiro, Diamante gigante, Pé de cabra, Planta do banco, Dinamite, Estetoscópio, Câmera de segurança, Chave de cofre de segurança, Cartão de chave mestre." style="width: 100%; padding: 12px; background: #070c18; border: 1.5px solid #334155; border-radius: 10px; color: #fff; font-size: 13px; resize: vertical;"></textarea>
+
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-top: 12px; flex-wrap: wrap; gap: 10px;">
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <span style="font-size: 12px; color: #94a3b8;">Estilo Visual:</span>
+            <select id="studio-ai-style-select" style="padding: 6px 12px; background: #0f172a; border: 1px solid #334155; border-radius: 6px; color: #fff; font-size: 12px;">
+              <option value="photorealistic">Fotorrealista & Cinemático</option>
+              <option value="vintage">Mistério Vitoriano / Antiguidade</option>
+              <option value="adventure">Aventura & Selva Arqueológica</option>
+            </select>
+          </div>
+
+          <button class="btn btn-primary" id="studio-btn-run-ai-gen" style="padding: 10px 24px; font-size: 13px; background: linear-gradient(135deg, #a855f7, #6366f1); border-color: #c084fc;">
+            <span>✨</span>
+            <span>Gerar Imagem & Mapear com IA</span>
+          </button>
+        </div>
+
+        <div id="studio-ai-gen-loading" style="display: none; text-align: center; color: #fbbf24; font-weight: 700; font-size: 13px; padding: 12px 0;">
+          ⏳ Criando cenário com itens camuflados e mapeando coordenadas com IA...
+        </div>
+      </div>
+    </div>
+
+    <div class="studio-layout">
+      <!-- Área de Marcação da Imagem -->
+      <main class="studio-canvas-area">
+        <div style="display: flex; gap: 10px; flex-wrap: wrap; align-items: center;">
+          <input type="file" id="studio-file-input" accept="image/*" class="btn btn-sm">
+          <input type="text" id="studio-url-input" placeholder="Ou cole o link de uma imagem HD..." style="flex: 1; padding: 6px 12px; background: #0f172a; border: 1px solid #334155; border-radius: 8px; color: #fff; font-size: 12px;">
+          <button class="btn btn-sm" id="studio-btn-load-url">Carregar URL</button>
+        </div>
+
+        <!-- Barra de Ferramentas do Estúdio: Modos e Zoom -->
+        <div class="studio-toolbar-bar">
+          <!-- Modos de Interação -->
+          <div class="studio-mode-toggle-group">
+            <button class="btn btn-sm active-tool" id="studio-tool-mark" title="Modo Marcar: Desenhe caixas nos objetos">
+              <span>🎯</span>
+              <span>Marcar Objeto</span>
+            </button>
+            <button class="btn btn-sm" id="studio-tool-pan" title="Modo Mover: Arraste a imagem com o mouse para navegar">
+              <span>✋</span>
+              <span>Mover / Inspecionar</span>
+            </button>
+          </div>
+
+          <!-- Controles de Zoom -->
+          <div class="studio-zoom-control-group">
+            <button class="btn btn-sm" id="studio-zoom-out" title="Diminuir Zoom">🔍 -</button>
+            <input type="range" id="studio-zoom-slider" min="50" max="400" value="100" step="10" style="width: 110px; cursor: pointer;">
+            <span id="studio-zoom-val" class="zoom-badge-text">100%</span>
+            <button class="btn btn-sm" id="studio-zoom-in" title="Aumentar Zoom">🔍 +</button>
+            <button class="btn btn-sm" id="studio-zoom-reset" title="Ajustar ao Padrão (100%)">🔄 100%</button>
+          </div>
+        </div>
+
+        <!-- Banner de Orientação para Marcação Rápida com 1 Clique -->
+        <div id="studio-queue-banner" style="display: none; background: linear-gradient(90deg, #b45309, #d97706); color: #fff; padding: 10px 16px; border-radius: 10px; font-weight: 700; font-size: 13px; align-items: center; gap: 10px; box-shadow: 0 4px 15px rgba(217, 119, 6, 0.4); animation: pulseSlow 2s infinite;">
+        </div>
+
+        <div class="studio-img-wrapper" id="studio-img-wrap">
+          <div class="studio-stage-viewport">
+            <div id="studio-empty-msg" style="color: #64748b; font-size: 13px; text-align: center; width: 100%;">
+              📸 Carregue uma imagem do PC ou gerada por IA para marcar os objetos
+            </div>
+            <div id="studio-stage" class="studio-stage" style="display: none;">
+              <img id="studio-preview-img" alt="Preview da Cena">
+              <div id="studio-draw-layer"></div>
+            </div>
+          </div>
+        </div>
+      </main>
+
+      <!-- Barra Lateral de Gerenciamento -->
+      <aside class="studio-sidebar">
+        <div>
+          <label style="font-size: 11px; font-weight: 700; color: #94a3b8;">Título do Cenário:</label>
+          <input type="text" id="studio-level-title" value="Nova Expedição" style="width: 100%; padding: 8px; background: #1e293b; border: 1px solid #334155; border-radius: 8px; color: #fff; font-weight: bold; margin-top: 4px;">
+        </div>
+
+        <div>
+          <label style="font-size: 11px; font-weight: 700; color: #94a3b8;">Subtítulo / Descrição:</label>
+          <input type="text" id="studio-level-subtitle" value="Relíquias Arqueológicas" style="width: 100%; padding: 8px; background: #1e293b; border: 1px solid #334155; border-radius: 8px; color: #fff; font-size: 12px; margin-top: 4px;">
+        </div>
+
+        <div>
+          <label style="font-size: 11px; font-weight: 700; color: #94a3b8;">Tempo Limite (Segundos):</label>
+          <input type="number" id="studio-level-time" value="120" style="width: 100%; padding: 8px; background: #1e293b; border: 1px solid #334155; border-radius: 8px; color: #fff; font-size: 12px; margin-top: 4px;">
+        </div>
+
+        <!-- FERRAMENTA COMPACTA DE LISTA DE NOMES -->
+        <div style="background: #090d16; border: 1.5px solid #2563eb; border-radius: 10px; padding: 10px; margin-top: 6px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+            <strong style="font-size: 11px; color: #60a5fa;">⚡ Colar Lista de Nomes (Lote):</strong>
+          </div>
+          <textarea id="studio-custom-list-input" rows="2"
+                 placeholder="Cole aqui... Ex: 1. Bússola, 2. Mapa, 3. Papagaio, 4. Caneca, 5. Moedas..." 
+                 style="width: 100%; padding: 6px 8px; background: #0f172a; border: 1px solid #334155; border-radius: 6px; color: #fff; font-size: 11px; resize: vertical; box-sizing: border-box;"></textarea>
+          <button class="btn btn-primary" id="studio-btn-apply-bulk-names" style="width: 100%; margin-top: 4px; padding: 6px; font-size: 11px; font-weight: 800; background: linear-gradient(135deg, #2563eb, #1d4ed8); border: none; border-radius: 6px;">
+            ⚡ Aplicar Nomes às Caixas
+          </button>
+        </div>
+
+        <!-- LISTA E ADIÇÃO DIRETA DE OBJETOS -->
+        <div style="border-top: 1px solid #1e293b; padding-top: 10px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+            <strong style="font-size: 12px; color: #fbbf24;">Objetos da Cena</strong>
+            <span id="studio-items-count" style="font-size: 11px; color: #38bdf8;">0 marcados</span>
+          </div>
+
+          <!-- Campo Rápido para Digitar Item Individual -->
+          <div style="display: flex; gap: 6px; margin-bottom: 8px;">
+            <input type="text" id="studio-quick-item-input" placeholder="Novo objeto (ex: Bússola)..." 
+                   style="flex: 1; padding: 6px 10px; background: #0f172a; border: 1px solid #334155; border-radius: 6px; color: #fff; font-size: 12px;">
+            <button class="btn btn-sm btn-primary" id="studio-btn-add-quick-item" style="padding: 6px 12px;">+ Adicionar</button>
+          </div>
+
+          <!-- Tabela com os Itens Marcados -->
+          <div id="studio-items-table" style="max-height: 220px; overflow-y: auto;"></div>
+        </div>
+
+        <div style="border-top: 1px solid #1e293b; padding-top: 10px;">
+          <strong style="font-size: 12px; color: #fbbf24; display: block; margin-bottom: 8px;">Todas as Fases Salvas</strong>
+          <div id="studio-levels-list" style="max-height: 160px; overflow-y: auto; display: flex; flex-direction: column; gap: 6px;"></div>
+        </div>
+
+        <div style="display: flex; gap: 6px; border-top: 1px solid #1e293b; padding-top: 10px;">
+          <button class="btn btn-sm" id="studio-btn-export" style="flex: 1;">📥 Exportar JSON</button>
+          <button class="btn btn-sm" id="studio-btn-import" style="flex: 1;">📤 Importar</button>
+          <input type="file" id="studio-import-file" accept=".json" style="display: none;">
+        </div>
+      </aside>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       MODAL: VITÓRIA
+       ========================================================================== -->
+  <div id="modal-victory" class="app-modal">
+    <div class="modal-box" style="text-align: center;">
+      <div style="font-size: 3rem;">🏆</div>
+      <h2 class="font-cinzel" style="color: #fbbf24; font-size: 1.6rem;">EXPEDIÇÃO CONCLUÍDA!</h2>
+      <p id="victory-level-title" style="color: #94a3b8; font-size: 13px;">Mesa do Arqueólogo</p>
+
+      <div id="victory-stars-box" style="font-size: 2rem; margin: 8px 0;">
+        ⭐⭐⭐
+      </div>
+
+      <div style="background: #1e293b; border-radius: 12px; padding: 12px; display: flex; justify-content: space-around;">
+        <div>
+          <span style="font-size: 10px; color: #94a3b8; display: block;">PONTOS</span>
+          <strong id="victory-score-val" style="color: #fbbf24; font-size: 16px;">1.250</strong>
+        </div>
+        <div>
+          <span style="font-size: 10px; color: #94a3b8; display: block;">XP GANHO</span>
+          <strong id="victory-xp-val" style="color: #38bdf8; font-size: 16px;">+150 XP</strong>
+        </div>
+        <div>
+          <span style="font-size: 10px; color: #94a3b8; display: block;">MOEDAS</span>
+          <strong id="victory-coins-val" style="color: #10b981; font-size: 16px;">+200</strong>
+        </div>
+      </div>
+
+      <div style="display: flex; gap: 8px; margin-top: 8px;">
+        <button class="btn btn-modal-cancel" style="flex: 1;" onclick="window.ExpedicaoApp.closeVictoryAndGoCampaign()">Fases</button>
+        <button class="btn btn-primary" style="flex: 1; background: linear-gradient(135deg, #f59e0b, #d97706); color: #fff; font-weight: 800;" onclick="window.ExpedicaoApp.playNextLevel()">Próxima ▶</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       MODAL: LOJA DO EXPLORADOR
+       ========================================================================== -->
+  <div id="modal-shop" class="app-modal">
+    <div class="modal-box">
+      <div style="display: flex; justify-content: space-between; align-items: center;">
+        <h3 class="font-cinzel" style="color: #fbbf24;">🛒 LOJA DO EXPLORADOR</h3>
+        <button class="modal-close" style="background: transparent; border: none; color: #fff; font-size: 1.2rem; cursor: pointer;">✕</button>
+      </div>
+
+      <div style="display: flex; flex-direction: column; gap: 10px;">
+        <div style="background: #1e293b; border-radius: 10px; padding: 10px; display: flex; justify-content: space-between; align-items: center;">
+          <div>
+            <strong>💡 Pacote de 3 Dicas</strong>
+            <p style="font-size: 11px; color: #94a3b8;">Ilumina qualquer objeto na cena</p>
+          </div>
+          <button class="btn btn-sm btn-primary" onclick="window.ExpedicaoApp.buyShopItem('hint', 150, 0)">150 🪙</button>
+        </div>
+
+        <div style="background: #1e293b; border-radius: 10px; padding: 10px; display: flex; justify-content: space-between; align-items: center;">
+          <div>
+            <strong>⚡ Recarga de Energia (100%)</strong>
+            <p style="font-size: 11px; color: #94a3b8;">Restaure sua energia imediatamente</p>
+          </div>
+          <button class="btn btn-sm btn-primary" onclick="window.ExpedicaoApp.buyShopItem('energy', 0, 5)">5 💎</button>
+        </div>
+
+        <div style="background: #1e293b; border-radius: 10px; padding: 10px; display: flex; justify-content: space-between; align-items: center;">
+          <div>
+            <strong>🪙 Saco com 1.000 Moedas</strong>
+            <p style="font-size: 11px; color: #94a3b8;">Para comprar dicas e suprimentos</p>
+          </div>
+          <button class="btn btn-sm btn-primary" onclick="window.ExpedicaoApp.buyShopItem('coins', 0, 8)">8 💎</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       MODAL: BAÚ DIÁRIO
+       ========================================================================== -->
+  <div id="modal-daily" class="app-modal">
+    <div class="modal-box" style="text-align: center; position: relative;">
+      <button class="modal-close" style="position: absolute; top: 12px; right: 16px; background: transparent; border: none; color: #94a3b8; font-size: 1.4rem; cursor: pointer; line-height: 1; padding: 4px;" title="Fechar">✕</button>
+      <div style="font-size: 3rem;">🎁</div>
+      <h3 class="font-cinzel" style="color: #fbbf24;">BAÚ DIÁRIO DE SUPRIMENTOS</h3>
+      <p style="color: #94a3b8; font-size: 13px;">Resgate seu bônus de expedição a cada 24 horas!</p>
+
+      <div style="background: #1e293b; border-radius: 12px; padding: 14px; margin: 10px 0;">
+        <p style="font-size: 14px; font-weight: 800; color: #fff;">
+          🪙 +250 Moedas de Ouro<br>
+          💎 +5 Diamantes Preciosos<br>
+          💡 +2 Dicas Mágicas
+        </p>
+      </div>
+
+      <button class="btn btn-primary" style="width: 100%; padding: 12px;" onclick="window.ExpedicaoApp.claimDailyReward()">
+        🎉 Abrir Baú Grátis
+      </button>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       MODAL: CONFIGURAÇÕES
+       ========================================================================== -->
+  <div id="modal-settings" class="app-modal">
+    <div class="modal-box">
+      <div style="display: flex; justify-content: space-between; align-items: center;">
+        <h3 class="font-cinzel" style="color: #fbbf24;">⚙️ CONFIGURAÇÕES</h3>
+        <button class="modal-close" style="background: transparent; border: none; color: #fff; font-size: 1.2rem; cursor: pointer;">✕</button>
+      </div>
+
+      <div style="display: flex; flex-direction: column; gap: 14px;">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+          <span>Efeitos Sonoros (SFX):</span>
+          <button class="btn btn-sm" onclick="this.textContent = window.ExpedicaoSounds.toggleMute() ? 'Mudo 🔇' : 'Ativo 🔊'">Ativo 🔊</button>
+        </div>
+
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+          <span>Música Ambiente:</span>
+          <button class="btn btn-sm" onclick="this.textContent = window.ExpedicaoSounds.toggleMusic() ? 'Ativa 🎵' : 'Desligada 🔇'">Ativa 🎵</button>
+        </div>
+
+        <div style="border-top: 1px solid #1e293b; padding-top: 10px;">
+          <button class="btn btn-sm btn-danger" style="width: 100%;" onclick="if(confirm('Resetar todo o seu progresso?')){ localStorage.clear(); location.reload(); }">
+            ⚠️ Redefinir Progresso do Jogo
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="js/sound-engine.js"></script>
+  <script src="js/ai-generator.js"></script>
+  <script src="js/ai-mapper.js"></script>
+  <script src="js/game-state.js"></script>
+  <script src="js/admin-studio.js"></script>
+  <script src="js/gameplay.js?v=3.7"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
