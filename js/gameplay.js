@@ -391,6 +391,7 @@ class ExpedicaoGameplay {
     this.score += 250;
     try { window.ExpedicaoSounds.playItemFound(); } catch(e){}
 
+    document.querySelectorAll('.game-hint-beacon').forEach(el => el.remove());
     this.createSparkles(screenX, screenY);
     this.createFoundBadge(item);
     this.updateStatsDisplay();
@@ -483,6 +484,10 @@ class ExpedicaoGameplay {
 
     window.ExpedicaoState.profile.tools.hints--;
     window.ExpedicaoState.saveProfile();
+
+    const hintCountEl = document.getElementById('btn-hint-count');
+    if (hintCountEl) hintCountEl.textContent = window.ExpedicaoState.profile.tools.hints;
+
     try { window.ExpedicaoSounds.playHint(); } catch(e){}
 
     const target = unFound[Math.floor(Math.random() * unFound.length)];
@@ -490,20 +495,35 @@ class ExpedicaoGameplay {
   }
 
   showHintPulse(item) {
-    const rect = this.mainCanvas.getBoundingClientRect();
-    const hintEl = document.createElement('div');
-    hintEl.className = 'hint-pulse-ring';
-    
-    const posX = rect.left + (item.x / 100) * rect.width;
-    const posY = rect.top + (item.y / 100) * rect.height;
-    const width = (item.w / 100) * rect.width;
-    const height = (item.h / 100) * rect.height;
+    const stage = document.getElementById('game-stage-inner') || document.getElementById('game-scene-wrap');
+    if (!stage) return;
 
-    hintEl.style.left = `${posX + width / 2}px`;
-    hintEl.style.top = `${posY + height / 2}px`;
-    document.body.appendChild(hintEl);
+    // Remove beacons de dicas anteriores
+    document.querySelectorAll('.game-hint-beacon').forEach(el => el.remove());
 
-    setTimeout(() => hintEl.remove(), 3500);
+    const posX = item.x + item.w / 2;
+    const posY = item.y + item.h / 2;
+
+    const beacon = document.createElement('div');
+    beacon.className = 'game-hint-beacon';
+    beacon.id = `hint-beacon-${item.id}`;
+    beacon.style.left = `${posX}%`;
+    beacon.style.top = `${posY}%`;
+
+    beacon.innerHTML = `
+      <div class="hint-beacon-core"></div>
+      <div class="hint-beacon-ring-outer"></div>
+      <div class="hint-beacon-tag">💡 ${item.name}</div>
+    `;
+
+    stage.appendChild(beacon);
+
+    // Remove suavemente após 4.5 segundos
+    setTimeout(() => {
+      beacon.style.transition = 'opacity 0.6s ease';
+      beacon.style.opacity = '0';
+      setTimeout(() => beacon.remove(), 600);
+    }, 4500);
   }
 
   toggleLens() {
