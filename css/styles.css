@@ -1579,153 +1579,99 @@ body {
 
 
 
-
-
-
-
 /* ==========================================================================
-   ADAPTAÇÃO RESPONSIVA EXCLUSIVA PARA SMARTPHONES (MODO RETRATO / VERTICAL)
-   ESTILO NATIVO DE APP MOBILE DE CAÇA-OBJETOS (DOCK INFERIOR DE ITENS)
-   (NÃO AFETA O COMPUTADOR / DESKTOP EM ABSOLUTAMENTE NADA)
+   ADAPTAÇÃO RESPONSIVA COM LISTA LATERAL À DIREITA + AVISO DE TELA HORIZONTAL
    ========================================================================== */
-@media screen and (max-width: 768px) {
-  /* 1. Header do jogo */
-  .game-top-bar {
-    height: 48px !important;
-    padding: 0 8px !important;
+/* Overlay quando o celular estiver em pé (modo vertical/retrato) */
+#mobile-rotate-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(2, 6, 23, 0.96);
+  z-index: 9999;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 24px;
+  backdrop-filter: blur(10px);
+}
+
+@media screen and (orientation: portrait) and (max-width: 900px) {
+  #mobile-rotate-overlay {
     display: flex !important;
-    align-items: center !important;
-    justify-content: space-between !important;
-    background: #0f172a !important;
-    border-bottom: 1.5px solid #1e293b !important;
-    gap: 4px !important;
+  }
+}
+
+.rotate-device-icon {
+  font-size: 3.5rem;
+  margin-bottom: 16px;
+  animation: rotatePhoneAnim 2.2s infinite ease-in-out;
+}
+
+@keyframes rotatePhoneAnim {
+  0% { transform: rotate(0deg); }
+  45% { transform: rotate(-90deg); }
+  55% { transform: rotate(-90deg); }
+  90% { transform: rotate(0deg); }
+  100% { transform: rotate(0deg); }
+}
+
+.rotate-title {
+  color: #fbbf24;
+  font-family: 'Cinzel', serif;
+  font-size: 1.25rem;
+  font-weight: 800;
+  margin-bottom: 8px;
+}
+
+.rotate-desc {
+  color: #94a3b8;
+  font-size: 13px;
+  max-width: 320px;
+  line-height: 1.5;
+  margin-bottom: 20px;
+}
+
+.rotate-btn-dismiss {
+  background: #1e293b;
+  border: 1px solid #475569;
+  color: #cbd5e1;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 8px 18px;
+  border-radius: 20px;
+  cursor: pointer;
+}
+
+/* Ajustes suaves em telas menores no modo horizontal */
+@media screen and (max-width: 960px) and (orientation: landscape), screen and (max-height: 520px) {
+  .game-top-bar {
+    height: 42px !important;
+    padding: 0 10px !important;
   }
 
-  .game-top-bar .btn {
-    padding: 4px 8px !important;
-    font-size: 11px !important;
-    border-radius: 8px !important;
-  }
-
-  #game-level-title {
-    font-size: 11px !important;
-    max-width: 110px !important;
-    white-space: nowrap !important;
-    overflow: hidden !important;
-    text-overflow: ellipsis !important;
-    display: block !important;
-  }
-
-  /* 2. Layout principal em coluna */
   .game-main-layout {
-    flex-direction: column !important;
-    height: calc(100vh - 48px) !important;
-    position: relative !important;
-    overflow: hidden !important;
+    height: calc(100vh - 42px) !important;
   }
 
-  /* 3. Área Central da Imagem */
-  .game-scene-container {
-    flex: 1 1 auto !important;
-    width: 100vw !important;
-    height: calc(100% - 88px) !important;
-    max-height: calc(100% - 88px) !important;
-    overflow: hidden !important;
+  .game-sidebar-checklist {
+    width: 220px !important;
+    min-width: 220px !important;
+    padding: 8px 10px !important;
+  }
+
+  .game-item-card {
+    padding: 6px 8px !important;
+    font-size: 11px !important;
+    margin-bottom: 5px !important;
   }
 
   .game-stage-wrapper #game-main-canvas {
-    max-width: 100vw !important;
-    max-height: 100% !important;
-  }
-
-  /* 4. Dock Inferior de Itens (Barra Arredondada Fixada no Rodapé) */
-  .game-sidebar-checklist {
-    flex: 0 0 88px !important;
-    width: 100vw !important;
-    height: 88px !important;
-    min-height: 88px !important;
-    max-height: 88px !important;
-    background: #0b1120 !important;
-    border-left: none !important;
-    border-top: 1.5px solid #1e293b !important;
-    padding: 8px 10px !important;
-    box-sizing: border-box !important;
-    display: flex !important;
-    flex-direction: row !important;
-    align-items: center !important;
-    overflow: hidden !important;
-    z-index: 50 !important;
-    box-shadow: 0 -8px 25px rgba(0, 0, 0, 0.8) !important;
-  }
-
-  .game-sidebar-checklist .checklist-title,
-  .game-sidebar-checklist > div:last-child {
-    display: none !important;
-  }
-
-  .checklist-items-scroll {
-    display: flex !important;
-    flex-direction: row !important;
-    align-items: center !important;
-    gap: 8px !important;
-    overflow-x: auto !important;
-    overflow-y: hidden !important;
-    width: 100% !important;
-    height: 100% !important;
-    padding: 2px 4px !important;
-    -webkit-overflow-scrolling: touch !important;
-  }
-
-  .checklist-item {
-    min-width: 76px !important;
-    max-width: 82px !important;
-    height: 68px !important;
-    flex-shrink: 0 !important;
-    background: #1e293b !important;
-    border: 1.5px solid #334155 !important;
-    border-radius: 14px !important;
-    display: flex !important;
-    flex-direction: column !important;
-    align-items: center !important;
-    justify-content: center !important;
-    gap: 3px !important;
-    padding: 4px !important;
-    margin-bottom: 0 !important;
-    box-sizing: border-box !important;
-    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.5) !important;
-  }
-
-  .checklist-icon {
-    font-size: 17px !important;
-  }
-
-  .checklist-name {
-    font-size: 9.5px !important;
-    font-weight: 800 !important;
-    color: #f8fafc !important;
-    text-align: center !important;
-    line-height: 1.15 !important;
-    white-space: normal !important;
-    display: -webkit-box !important;
-    -webkit-line-clamp: 2 !important;
-    -webkit-box-orient: vertical !important;
-    overflow: hidden !important;
-  }
-
-  .checklist-item.found {
-    background: rgba(16, 185, 129, 0.15) !important;
-    border-color: #10b981 !important;
-    opacity: 0.55 !important;
-  }
-
-  .checklist-item.found .checklist-name {
-    text-decoration: line-through !important;
-    color: #34d399 !important;
-  }
-
-  .game-floating-zoom {
-    bottom: 98px !important;
-    left: 8px !important;
-    z-index: 60 !important;
+    max-width: calc(100vw - 235px) !important;
+    max-height: calc(100vh - 58px) !important;
   }
 }
