@@ -1675,3 +1675,145 @@ body {
     max-height: calc(100vh - 58px) !important;
   }
 }
+
+
+/* ==========================================================================
+   ADAPTAÇÃO HORIZONTAL PARA SMARTPHONE (LANDSCAPE PANORÂMICO)
+   (O COMPUTADOR/DESKTOP PERMANECE 100% INTACTO)
+   ========================================================================== */
+/* 1. Overlay Orientador quando o smartphone estiver em pé (vertical) */
+#mobile-rotate-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(2, 6, 23, 0.97);
+  z-index: 9999;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 24px;
+  backdrop-filter: blur(12px);
+}
+
+@media screen and (orientation: portrait) and (max-width: 900px) {
+  #mobile-rotate-overlay {
+    display: flex !important;
+  }
+}
+
+.rotate-device-icon {
+  font-size: 3.5rem;
+  margin-bottom: 14px;
+  animation: rotatePhoneAnim 2.2s infinite ease-in-out;
+}
+
+@keyframes rotatePhoneAnim {
+  0% { transform: rotate(0deg); }
+  45% { transform: rotate(-90deg); }
+  55% { transform: rotate(-90deg); }
+  90% { transform: rotate(0deg); }
+  100% { transform: rotate(0deg); }
+}
+
+.rotate-title {
+  color: #fbbf24;
+  font-family: 'Cinzel', serif;
+  font-size: 1.3rem;
+  font-weight: 800;
+  margin-bottom: 8px;
+}
+
+.rotate-desc {
+  color: #94a3b8;
+  font-size: 13.5px;
+  max-width: 320px;
+  line-height: 1.5;
+  margin-bottom: 22px;
+}
+
+.rotate-btn-dismiss {
+  background: #1e293b;
+  border: 1px solid #475569;
+  color: #cbd5e1;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 8px 18px;
+  border-radius: 20px;
+  cursor: pointer;
+}
+
+/* 2. Modo Horizontal no Celular (Preenchimento Máximo da Imagem) */
+@media screen and (orientation: landscape) and (max-width: 960px), screen and (max-height: 540px) {
+  .game-top-bar {
+    height: 38px !important;
+    padding: 0 10px !important;
+    gap: 8px !important;
+  }
+
+  .game-top-bar .btn {
+    padding: 3px 8px !important;
+    font-size: 11px !important;
+  }
+
+  #game-level-title {
+    font-size: 11px !important;
+  }
+
+  .game-main-layout {
+    height: calc(100vh - 38px) !important;
+    display: flex !important;
+    flex-direction: row !important;
+    overflow: hidden !important;
+  }
+
+  .game-scene-container {
+    flex: 1 !important;
+    height: 100% !important;
+    width: auto !important;
+    background: #020617 !important;
+  }
+
+  .game-stage-wrapper #game-main-canvas {
+    max-width: calc(100vw - 215px) !important;
+    max-height: calc(100vh - 44px) !important;
+  }
+
+  /* Barra lateral compacta à direita */
+  .game-sidebar-checklist {
+    width: 200px !important;
+    min-width: 200px !important;
+    background: #0b1120 !important;
+    padding: 6px 8px !important;
+    border-left: 1.5px solid #1e293b !important;
+    display: flex !important;
+    flex-direction: column !important;
+    height: 100% !important;
+  }
+
+  .checklist-title {
+    font-size: 11px !important;
+    margin-bottom: 4px !important;
+  }
+
+  .checklist-item {
+    padding: 4px 6px !important;
+    font-size: 10.5px !important;
+    margin-bottom: 4px !important;
+    border-radius: 6px !important;
+  }
+
+  .checklist-icon {
+    font-size: 12px !important;
+  }
+
+  .game-floating-zoom {
+    bottom: 12px !important;
+    left: 12px !important;
+    padding: 2px 6px !important;
+    z-index: 50 !important;
+  }
+}

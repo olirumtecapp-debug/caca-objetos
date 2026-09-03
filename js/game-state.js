@@ -9,16 +9,16 @@ const DEFAULT_PRESET_LEVELS = [
     image: "assets/navio_pirata.png",
     timeLimit: 120,
     items: [
-      { id: "item_n1", name: "Bússola", x: 30.0, y: 48.0, w: 10.0, h: 12.0 },
-      { id: "item_n2", name: "Mapa do tesouro", x: 36.5, y: 47.0, w: 14.5, h: 10.5 },
-      { id: "item_n3", name: "Papagaio de madeira", x: 40.5, y: 22.0, w: 8.5, h: 14.0 },
-      { id: "item_n4", name: "Espada", x: 56.0, y: 22.0, w: 22.0, h: 14.0 },
-      { id: "item_n5", name: "Moeda de ouro", x: 64.0, y: 49.0, w: 9.5, h: 9.5 },
-      { id: "item_n6", name: "Tapa-olho", x: 17.5, y: 69.5, w: 8.0, h: 14.5 },
-      { id: "item_n7", name: "Caneca de grogue", x: 49.0, y: 52.0, w: 7.5, h: 13.0 },
-      { id: "item_n8", name: "Diário de bordo", x: 9.5, y: 73.0, w: 16.0, h: 14.0 },
-      { id: "item_n9", name: "Garrafa de rum", x: 36.5, y: 77.5, w: 9.0, h: 17.0 },
-      { id: "item_n10", name: "Bola de canhão", x: 53.0, y: 84.0, w: 9.5, h: 12.5 }
+      { id: "item_n1", name: "Diário de bordo", x: 10.5, y: 72.0, w: 20.5, h: 17.5 },
+      { id: "item_n2", name: "Tapa-olho", x: 33.5, y: 70.0, w: 6.5, h: 12.0 },
+      { id: "item_n3", name: "Mapa do tesouro", x: 38.0, y: 47.0, w: 18.0, h: 14.5 },
+      { id: "item_n4", name: "Bússola", x: 44.5, y: 47.5, w: 9.5, h: 14.0 },
+      { id: "item_n5", name: "Caneca de grogue", x: 66.5, y: 52.5, w: 7.0, h: 12.5 },
+      { id: "item_n6", name: "Papagaio de madeira", x: 61.5, y: 21.0, w: 5.0, h: 16.5 },
+      { id: "item_n7", name: "Espada", x: 76.5, y: 19.5, w: 18.5, h: 16.5 },
+      { id: "item_n8", name: "Moeda de ouro", x: 79.5, y: 48.0, w: 15.5, h: 11.5 },
+      { id: "item_n9", name: "Garrafa de rum", x: 57.0, y: 76.0, w: 6.0, h: 15.5 },
+      { id: "item_n10", name: "Bola de canhão", x: 51.5, y: 83.0, w: 5.5, h: 10.5 }
     ]
   },
   {
